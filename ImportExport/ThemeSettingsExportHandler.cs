@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
-using Orchard.Environment.Extensions;
+using Orchard.ImportExport.Models;
 using Orchard.ImportExport.Services;
+using Orchard.Environment.Extensions;
 using IDeliverable.ThemeSettings.Services;
 
 namespace IDeliverable.ThemeSettings.ImportExport
@@ -9,10 +10,11 @@ namespace IDeliverable.ThemeSettings.ImportExport
     [OrchardFeature("IDeliverable.ThemeSettings.ImportExport")]
     public class ThemeSettingsExportHandler : IExportEventHandler
     {
-        private readonly IThemeSettingsService _themeSettingsService;
+        private readonly IThemeSettingsService mThemeSettingsService;
+
         public ThemeSettingsExportHandler(IThemeSettingsService themeSettingsService)
         {
-            _themeSettingsService = themeSettingsService;
+            mThemeSettingsService = themeSettingsService;
         }
 
         public void Exporting(ExportContext context)
@@ -26,7 +28,7 @@ namespace IDeliverable.ThemeSettings.ImportExport
                 return;
             }
 
-            var themes = _themeSettingsService.GetAllProfiles().ToLookup(x => x.Theme);
+            var themes = mThemeSettingsService.GetAllProfiles().ToLookup(x => x.Theme);
 
             if (!themes.Any())
             {
@@ -44,7 +46,7 @@ namespace IDeliverable.ThemeSettings.ImportExport
                         new XAttribute("Name", profile.Name),
                         new XAttribute("Description", profile.Description),
                         new XAttribute("IsCurrent", profile.IsCurrent),
-                        new XCData(_themeSettingsService.SerializeSettings(profile.Settings))))));
+                        new XCData(mThemeSettingsService.SerializeSettings(profile.Settings))))));
             }
         }
     }

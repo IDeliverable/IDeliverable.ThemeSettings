@@ -17,27 +17,27 @@ namespace IDeliverable.ThemeSettings.Services
 {
     public class ThemeSettingsService : Component, IThemeSettingsService
     {
-        private readonly ISessionLocator _sessionLocator;
-        private readonly ICacheManager _cacheManager;
-        private readonly IFeatureManager _featureManager;
-        private readonly IVirtualPathProvider _virtualPathProvider;
+        private readonly ITransactionManager mTransactionManager;
+        private readonly ICacheManager mCacheManager;
+        private readonly IFeatureManager mFeatureManager;
+        private readonly IVirtualPathProvider mVirtualPathProvider;
 
         public ThemeSettingsService(
-            ISessionLocator sessionLocator,
+            ITransactionManager transactionManager,
             ICacheManager cacheManager,
             IFeatureManager featureManager,
             IVirtualPathProvider virtualPathProvider)
         {
 
-            _sessionLocator = sessionLocator;
-            _cacheManager = cacheManager;
-            _featureManager = featureManager;
-            _virtualPathProvider = virtualPathProvider;
+            mTransactionManager = transactionManager;
+            mCacheManager = cacheManager;
+            mFeatureManager = featureManager;
+            mVirtualPathProvider = virtualPathProvider;
         }
 
         private ISession Session
         {
-            get { return _sessionLocator.For(typeof(ThemeProfileRecord)); }
+            get { return mTransactionManager.GetSession(); }
         }
 
         public ThemeProfile GetProfile(string themeId, string profileName)
@@ -48,7 +48,7 @@ namespace IDeliverable.ThemeSettings.Services
 
         public ExtensionDescriptor GetTheme(string themeId)
         {
-            var query = from x in _featureManager.GetEnabledFeatures()
+            var query = from x in mFeatureManager.GetEnabledFeatures()
                         where DefaultExtensionTypes.IsTheme(x.Extension.ExtensionType) && x.Id == themeId
                         select x.Extension;
 
@@ -87,12 +87,12 @@ namespace IDeliverable.ThemeSettings.Services
         public ThemeSettingsManifest GetSettingsManifest(string themeId)
         {
             var key = String.Format("ThemeSettingsManifest-{0}", themeId);
-            return _cacheManager.Get(key, context =>
+            return mCacheManager.Get(key, context =>
             {
                 var theme = GetTheme(themeId);
-                var path = _virtualPathProvider.Combine(theme.Location, theme.Id, "Settings.json");
+                var path = mVirtualPathProvider.Combine(theme.Location, theme.Id, "Settings.json");
 
-                if (!_virtualPathProvider.FileExists(path))
+                if (!mVirtualPathProvider.FileExists(path))
                     return null;
 
                 var json = ReadAllText(path);
@@ -196,7 +196,7 @@ namespace IDeliverable.ThemeSettings.Services
 
         private string ReadAllText(string virtualPath)
         {
-            using (var reader = new StreamReader(_virtualPathProvider.OpenFile(virtualPath)))
+            using (var reader = new StreamReader(mVirtualPathProvider.OpenFile(virtualPath)))
             {
                 return reader.ReadToEnd();
             }
