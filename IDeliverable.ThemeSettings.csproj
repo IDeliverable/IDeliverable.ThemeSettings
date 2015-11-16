@@ -112,9 +112,6 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\ThemeProfileHtmlHelper.cs" />
-    <Compile Include="ImportExport\ThemeSettingsExportHandler.cs" />
-    <Compile Include="ImportExport\ThemeSettingsExportStep.cs" />
-    <Compile Include="ImportExport\ThemeSettingsImportHandler.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ThemeProfile.cs" />
     <Compile Include="Models\ThemeProfileRecord.cs" />
@@ -122,6 +119,8 @@
     <Compile Include="Models\ThemeSettingDefinition.cs" />
     <Compile Include="Models\ThemeSettingsGroupDefinition.cs" />
     <Compile Include="Models\ThemeSettingsManifest.cs" />
+    <Compile Include="Recipes\Builders\ThemeSettingsStep.cs" />
+    <Compile Include="Recipes\Executors\ThemeSettingsStep.cs" />
     <Compile Include="Services\ISettingsFormBuilder.cs" />
     <Compile Include="Services\IThemeSettingProvider.cs" />
     <Compile Include="Services\IThemeSettingsService.cs" />
@@ -150,6 +149,7 @@
     <None Include="Settings.json.sample" />
     <None Include="ThemeSettings.cshtml.sample" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -1,36 +1,30 @@
-﻿using System;
-using Orchard;
+﻿using IDeliverable.ThemeSettings.Models;
+using IDeliverable.ThemeSettings.Services;
 using Orchard.ContentManagement;
 using Orchard.Environment.Extensions;
 using Orchard.Recipes.Models;
 using Orchard.Recipes.Services;
-using IDeliverable.ThemeSettings.Models;
-using IDeliverable.ThemeSettings.Services;
 
-namespace IDeliverable.ThemeSettings.ImportExport
+namespace IDeliverable.ThemeSettings.Recipes.Executors
 {
     [OrchardFeature("IDeliverable.ThemeSettings.ImportExport")]
-    public class ThemeSettingsImportHandler : Component, IRecipeHandler
+    public class ThemeSettingsStep : RecipeExecutionStep
     {
         private readonly IThemeSettingsService _themeSettingsService;
-        public ThemeSettingsImportHandler(IThemeSettingsService themeSettingsService)
+        public ThemeSettingsStep(IThemeSettingsService themeSettingsService, RecipeExecutionLogger logger) : base(logger)
         {
             _themeSettingsService = themeSettingsService;
         }
 
-        public void ExecuteRecipeStep(RecipeContext recipeContext)
+        public override string Name => "ThemeSettings";
+        
+        public override void Execute(RecipeExecutionContext context)
         {
-            if (!String.Equals(recipeContext.RecipeStep.Name, "ThemeSettings", StringComparison.OrdinalIgnoreCase))
-            {
-                return;
-            }
-
-            foreach (var themeElement in recipeContext.RecipeStep.Step.Elements())
+            foreach (var themeElement in context.RecipeStep.Step.Elements())
             {
                 var themeName = themeElement.Attr<string>("Name");
 
-                foreach (var profileElement in themeElement.Elements())
-                {
+                foreach (var profileElement in themeElement.Elements()) {
                     var profileName = profileElement.Attr<string>("Name");
                     var profile = _themeSettingsService.GetProfile(profileName) ?? new ThemeProfile();
 
@@ -43,8 +37,6 @@ namespace IDeliverable.ThemeSettings.ImportExport
                     _themeSettingsService.SaveProfile(profile);
                 }
             }
-
-            recipeContext.Executed = true;
         }
     }
 }

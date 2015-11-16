@@ -1,33 +1,28 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
-using Orchard.ImportExport.Models;
-using Orchard.ImportExport.Services;
-using Orchard.Environment.Extensions;
 using IDeliverable.ThemeSettings.Services;
+using Orchard.Environment.Extensions;
+using Orchard.Localization;
+using Orchard.Recipes.Services;
 
-namespace IDeliverable.ThemeSettings.ImportExport
+namespace IDeliverable.ThemeSettings.Recipes.Builders
 {
     [OrchardFeature("IDeliverable.ThemeSettings.ImportExport")]
-    public class ThemeSettingsExportHandler : IExportEventHandler
+    public class ThemeSettingsStep : RecipeBuilderStep
     {
         private readonly IThemeSettingsService mThemeSettingsService;
 
-        public ThemeSettingsExportHandler(IThemeSettingsService themeSettingsService)
+        public ThemeSettingsStep(IThemeSettingsService themeSettingsService)
         {
             mThemeSettingsService = themeSettingsService;
         }
 
-        public void Exporting(ExportContext context)
-        {
-        }
+        public override string Name => "ThemeSettings";
+        public override LocalizedString DisplayName => T("Theme Settings");
+        public override LocalizedString Description => T("Exports Theme Settings.");
 
-        public void Exported(ExportContext context)
+        public override void Build(BuildContext context)
         {
-            if (!context.ExportOptions.CustomSteps.Contains("ThemeSettings"))
-            {
-                return;
-            }
-
             var themes = mThemeSettingsService.GetAllProfiles().ToLookup(x => x.Theme);
 
             if (!themes.Any())
@@ -36,7 +31,7 @@ namespace IDeliverable.ThemeSettings.ImportExport
             }
 
             var root = new XElement("ThemeSettings");
-            context.Document.Element("Orchard").Add(root);
+            context.RecipeDocument.Element("Orchard").Add(root);
 
             foreach (var theme in themes)
             {
@@ -44,7 +39,7 @@ namespace IDeliverable.ThemeSettings.ImportExport
                     new XAttribute("Name", theme.Key),
                     theme.Select(profile => new XElement("Profile",
                         new XAttribute("Name", profile.Name),
-                        new XAttribute("Description", profile.Description),
+                        new XAttribute("Description", profile.Description ?? ""),
                         new XAttribute("IsCurrent", profile.IsCurrent),
                         new XCData(mThemeSettingsService.SerializeSettings(profile.Settings))))));
             }
