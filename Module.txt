@@ -2,8 +2,8 @@
 AntiForgery: enabled
 Author: IDeliverable
 Website: https://github.com/IDeliverable/IDeliverable.ThemeSettings
-Version: 1.9
-OrchardVersion: 1.9
+Version: 1.10
+OrchardVersion: 1.10
 Description: Enables third party themes to provide a theme settings manifest. These settings are surfaced as theme settings to the user in the dashboard.
 Features:
     IDeliverable.ThemeSettings:
