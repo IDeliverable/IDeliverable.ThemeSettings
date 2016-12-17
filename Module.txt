@@ -1,18 +1,18 @@
-﻿Name: Theme Settings
+﻿Name: IDeliverable.ThemeSettings
 AntiForgery: enabled
-Author: IDeliverable
+Author: IDeliverable, Ltd.
 Website: https://github.com/IDeliverable/IDeliverable.ThemeSettings
-Version: 1.10
+Version: 1.0.0
 OrchardVersion: 1.10
-Description: Enables third party themes to provide a theme settings manifest. These settings are surfaced as theme settings to the user in the dashboard.
+Description: Provides functionality to enable themes to expose settings that are configurable by site owners in the admin UI.
 Features:
     IDeliverable.ThemeSettings:
         Name: Theme Settings
-        Description: Enables third party themes to provide a theme settings manifest. These settings are surfaced as theme settings to the user in the dashboard.
+        Description: Provides functionality to enable themes to expose settings that are configurable by site owners in the admin UI.
         Category: Designer
         Dependencies: Orchard.Themes, Orchard.Forms, Orchard.Tokens
     IDeliverable.ThemeSettings.ImportExport:
-        Name: Theme Settings Import Export
-        Description: Enables import and export of theme settings.
+        Name: Theme Settings Import/Export
+        Description: Provides support for import and export of theme settings.
         Category: Settings
         Dependencies: IDeliverable.ThemeSettings, Orchard.ImportExport

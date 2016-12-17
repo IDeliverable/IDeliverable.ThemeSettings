@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+        <id>IDeliverable.ThemeSettings</id>
+		<title>IDeliverable.ThemeSettings</title>
+        <version>1.0.0</version>
+        <authors>IDeliverable Ltd.</authors>
+        <owners>IDeliverable Ltd.</owners>
+        <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+        <projectUrl>https://github.com/IDeliverable/IDeliverable.ThemeSettings</projectUrl>
+        <iconUrl>http://storage.ideliverable.com/media/Default/Products/IDeliverable.ThemeSettings-Logo-256.png</iconUrl>
+		<language>en-US</language>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>a module for the Orchard CMS that provides functionality to enable themes to expose settings that are configurable by site owners in the admin UI.</description>
+        <summary>IDeliverable.ThemeSettings is a module for the Orchard CMS that provides functionality to enable themes to expose settings that are configurable by site owners in the admin UI.</summary>
+        <tags>IDeliverable Theme Settings Skin Skinning Orchard CMS Module</tags>
+    </metadata>
+    <files>
+        <file src="**" target="content\Modules\IDeliverable.ThemeSettings" exclude="bin\*.*;obj\**;*.user;Package.cmd" />
+    </files>
+</package>

@@ -177,6 +177,7 @@
   <ItemGroup>
     <Content Include="App_Data\Localization\en-US\orchard.module.po" />
     <Content Include="packages.config" />
+    <Content Include="IDeliverable.ThemeSettings.nuspec" />
     <None Include="Readme.md" />
     <None Include="Settings.json.sample" />
     <None Include="ThemeSettings.cshtml.sample" />
